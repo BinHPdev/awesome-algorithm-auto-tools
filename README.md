@@ -48,6 +48,8 @@ This repository collects the best open-source tools and frameworks that make thi
 | [MLAgentBench](https://github.com/snap-stanford/MLAgentBench) | Benchmark for evaluating AI agents on ML experimentation | 13 end-to-end ML tasks from CIFAR-10 to BabyLM |
 | [AutoAgent](https://github.com/HKUDS/AutoAgent) | Zero-code LLM agent framework with self-play customization | Create agents via natural language, iterative self-improvement |
 | [ShinkaEvolve](https://github.com/SakanaAI) | LLM-as-mutation-operator program evolution framework | Evolves programs for scientific discovery |
+| [AI-Supervisor](https://arxiv.org/abs/2603.24402) | Autonomous research supervision via persistent Research World Model | Multi-agent consensus + Knowledge Graph; validates claims via GPU computation; self-correcting updates |
+| [ARIS](https://github.com/wanshuiyin/Auto-claude-code-research-in-sleep) | Lightweight Markdown-only skills for autonomous ML research overnight | Zero dependencies; cross-model review loops; 20+ GPU experiments per overnight run; works with any LLM agent |
 
 ## Agent-Driven Training Skills (HuggingFace Ecosystem)
 
@@ -99,6 +101,8 @@ This repository collects the best open-source tools and frameworks that make thi
 | [NeMo Gym](https://github.com/NVIDIA-NeMo/Gym) | Build RL environments for LLM training | Multi-step/multi-turn environments; interoperable with NeMo RL, OpenRLHF, TRL, Unsloth |
 | [rLLM](https://github.com/rllm-org/rllm) | Post-training RL framework for language agents | Custom agents + environments → RL training → deployment; rLLM-FinQA-4B beats Qwen3-235B |
 | [RAGEN](https://github.com/RAGEN-AI/RAGEN) | Multi-turn RL framework for training reasoning agents | StarPO framework; 10 built-in environments; identifies "Echo Trap" instability |
+| [f-GRPO](https://github.com/rhaldarpurdue/f-GRPO) | f-Divergence based GRPO for general LLM alignment | KL/Reverse KL/Pearson/Hellinger/JS divergences; superior on both RLVR (math) and safety alignment; built on Unsloth |
+| [Tree-GRPO](https://github.com/AMAP-ML/Tree-GRPO) | Tree search for LLM agent RL (ICLR 2026) | 4x less rollout budget via shared prefixes; step-wise process supervision from outcome reward; tree-structured ReAct |
 | [SimpleRL-Reason](https://github.com/hkust-nlp/simpleRL-reason) | Simple RL recipe for reasoning (HKUST) | DeepSeek-R1-style; 7B achieves 33.3% AIME with only 8K examples; no SFT needed |
 | [SWE-RL](https://github.com/facebookresearch/swe-rl) | Meta's RL for software engineering reasoning | Llama3-SWE-RL-70B achieves 41% on SWE-bench Verified (NeurIPS 2025) |
 | [OpenManus-RL](https://github.com/OpenManus/OpenManus-RL) | RL tuning for LLM agents (UIUC + MetaGPT) | PPO-based; AgentGym environments + verl training |
@@ -144,6 +148,7 @@ This repository collects the best open-source tools and frameworks that make thi
 | [InstructLab SDG](https://github.com/instructlab/sdg) | Synthetic data via LAB methodology (IBM/Red Hat) | Skills-SDG + Knowledge-SDG; minimal seed taxonomy → large-scale data |
 | [Persona Hub](https://github.com/tencent-ailab/persona-hub) | Persona-driven synthetic data at billion scale (Tencent) | 1B diverse personas; 370M elite personas released |
 | [synth_gen](https://github.com/facebookresearch/synth_gen) | Execution-verified synthetic data (Meta) | Modular verifier system; parser-based verification for code |
+| [Evidently](https://github.com/evidentlyai/evidently) | Open-source synthetic data generation with user profiles | Model-agnostic; customizable personas & goals; no-code UI in Evidently Cloud; outputs to pandas DataFrame |
 | [NVIDIA Nemotron-4 340B](https://blogs.nvidia.com/blog/nemotron-4-synthetic-data-generation-llm-training/) | Open models for synthetic data generation pipeline | Base + Instruct + Reward models; commercial use allowed |
 
 ### Data Curation & Filtering
@@ -184,6 +189,8 @@ This repository collects the best open-source tools and frameworks that make thi
 | [GPTQModel](https://github.com/ModelCloud/GPTQModel) | Production-ready LLM quantization toolkit | GPTQ, AWQ, QQQ, GPTAQ, EoRA, GAR; multi-backend CPU/GPU |
 | [AutoGPTQ](https://github.com/AutoGPTQ/AutoGPTQ) | Easy-to-use GPTQ quantization | 8/4/3/2-bit; Marlin int4*fp16 kernel; ~150-200K monthly PyPI downloads |
 | [AutoRound](https://github.com/intel/auto-round) | Advanced quantization via sign-gradient descent (Intel) | High accuracy at 2-4 bits; exports to GPTQ/AWQ/GGUF; broad HW compatibility |
+| [NVIDIA Model Optimizer](https://github.com/NVIDIA/Model-Optimizer) | Unified quantization, pruning, distillation & speculative decoding | FP8/INT8/INT4; exports to TensorRT-LLM/vLLM; NeMo Megatron integration |
+| [TurboQuant](https://research.google/blog/turboquant-redefining-ai-efficiency-with-extreme-compression/) | Google's KV cache compression (ICLR 2026) | 6x memory reduction at 3-bit with zero accuracy loss; PolarQuant + QJL; 8x perf on H100 |
 | [llama.cpp](https://github.com/ggml-org/llama.cpp) | LLM inference in C/C++ with GGUF quantization | Q4_K_M sweet spot: 92% quality, 75% size reduction; runs everywhere |
 
 ## Lightweight Pretraining & Distributed Training
@@ -214,6 +221,7 @@ This repository collects the best open-source tools and frameworks that make thi
 | [SGLang](https://github.com/sgl-project/sglang) | High-performance serving for LLMs & multimodal | ~16,200 tok/sec on H100; RadixAttention; used by slime for RL training |
 | [TensorRT-LLM](https://github.com/NVIDIA/TensorRT-LLM) | NVIDIA's optimized inference library | FP8/FP4/INT4; EAGLE-3 speculative decoding; max GPU performance |
 | [LMDeploy](https://github.com/InternLM/lmdeploy) | LLM compression, deployment & serving | TurboMind MXFP4; 1.5x vLLM performance; DeepSeek PD disaggregation |
+| [HuggingFace TGI](https://github.com/huggingface/text-generation-inference) | Multi-backend LLM serving (TensorRT-LLM, vLLM, llama.cpp) | Unified frontend; token streaming; HF Hub native; CPU/GPU/Inferentia support |
 | [NVIDIA Dynamo](https://github.com/ai-dynamo/dynamo) | Datacenter-scale distributed inference | 30x request throughput on DeepSeek-R1; disaggregated prefill/decode; Rust + Python |
 
 ## Multimodal Training Frameworks
@@ -250,6 +258,7 @@ This repository collects the best open-source tools and frameworks that make thi
 | [MLRC-Bench](https://openreview.net/forum?id=t8Okk2PRWU) | ML Research Competition challenges | Tests novel methodology development |
 | [AgentBench](https://github.com/THUDM/AgentBench) | Multi-dimensional benchmark for LLM agents | Tests across OS, database, knowledge graph, web, and game environments |
 | [SWE-bench Verified](https://www.swebench.com/) | Human-verified GitHub issue resolution | Industry standard for coding agents; top scores 70%+ |
+| [LiveBench](https://livebench.ai/) | Monthly-updated contamination-free LLM benchmark | 6 categories (Math/Reasoning/Coding/Language/Data/IF); objective auto-scoring; no LLM judge needed |
 
 ### Model Evaluation Frameworks
 
@@ -272,6 +281,9 @@ This repository collects the best open-source tools and frameworks that make thi
 | [SWE-agent](https://github.com/SWE-agent/SWE-agent) | Autonomous GitHub issue fixer | SWE-bench open-source SOTA (NeurIPS 2024) |
 | [Open-SWE](https://github.com/langchain-ai/open-swe) | LangChain's async cloud-hosted coding agent | Multi-agent (Planner + Reviewer); GitHub integration; auto PR creation |
 | [SERA](https://huggingface.co/collections/allenai/open-coding-agents) | Ai2's open coding agent family | 54.2% on SWE-Bench; trains in 40 GPU-days (~$2K); all open |
+| [Cline](https://github.com/cline/cline) | VS Code AI coding agent with 60K+ GitHub stars | MCP tool creation; 5M+ developers; human-in-the-loop approval; native subagents |
+| [OpenCode](https://github.com/opencode-ai/opencode) | Go-based terminal AI agent with 95K+ GitHub stars | Bubble Tea TUI; 75+ LLM providers; 6.5M monthly developers; SQLite persistence |
+| [Plandex](https://github.com/plandex-ai/plandex) | Terminal agent for large projects with 2M token context | Tree-sitter project maps; diff review sandbox; auto-debugging; 30+ languages |
 | [Roo Code](https://github.com/RooVetGit/Roo-Code) | Terminal agent with 95K+ GitHub stars | 75+ LLM providers; plan-first development; 2.5M monthly developers |
 
 ---
@@ -310,18 +322,20 @@ Generate data at scale → train efficiently → evaluate comprehensively.
 
 ---
 
-## Trends (2026)
+## Trends (2026 Q2 Update)
 
-1. **AutoResearch Paradigm**: Karpathy proved "AI autonomously doing ML research" works with just 630 lines of code
+1. **AutoResearch Paradigm**: Karpathy proved "AI autonomously doing ML research" works with just 630 lines of code — now spawning derivatives like ARIS and AI-Supervisor
 2. **"Vibe Training"**: HF Skills enables natural-language-driven model training lifecycle
-3. **GRPO > PPO**: DeepSeek's GRPO is becoming the default alignment method (no critic model, simpler, more stable)
+3. **GRPO Variants Proliferate**: f-GRPO (f-divergence family), Tree-GRPO (tree search, ICLR 2026), DAPO — GRPO is the new default, and specialized variants are emerging fast
 4. **RL Framework Explosion**: verl, DAPO, AReaL, slime — every major lab now has an open-source RL training framework
 5. **Self-Play Breakthrough**: Multi-agent self-evolution (SPIN, MAE, SPC) overcomes single-model self-training plateaus
-6. **Synthetic Data as Infrastructure**: Distilabel, Magpie, Cosmopedia make data generation a first-class pipeline stage
+6. **Synthetic Data as Infrastructure**: Distilabel, Magpie, Evidently make data generation a first-class pipeline stage; model collapse mitigation (Evol-Instruct) becoming standard
 7. **MCP Standardization**: Model Context Protocol adopted by OpenAI/Google/Microsoft as the "USB-C for AI agents"
 8. **Single-GPU Research**: Unsloth + nanochat + AutoResearch enables individual developers to do serious LLM research
-9. **Inference-Training Convergence**: vLLM/SGLang are now core components of RL training loops, not just serving
+9. **Inference-Training Convergence**: vLLM/SGLang/TGI are now core components of RL training loops, not just serving
 10. **Multimodal RL**: LLaVA-OneVision-1.5-RL and OpenRLHF-M bring RL alignment to vision-language models
+11. **Extreme Quantization**: Google TurboQuant achieves 6x KV cache compression at zero accuracy loss (ICLR 2026); NVIDIA Model Optimizer unifies quantization/pruning/distillation
+12. **Multi-Agent Coding Wave**: Feb 2026 saw every major tool ship multi-agent capabilities (Grok Build, Windsurf, Claude Code, Codex CLI, Devin) — coding agents now routinely write training scripts
 
 ---
 
@@ -352,4 +366,4 @@ This curated list is released under [CC0 1.0](https://creativecommons.org/public
 
 ---
 
-*Compiled March 2026. Project statuses may change — check individual GitHub repos for the latest.*
+*Compiled March 2026, updated April 2026. Project statuses may change — check individual GitHub repos for the latest.*
