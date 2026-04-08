@@ -21,6 +21,9 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: 拉取最新代码
+        run: git pull origin main --rebase
+
       - name: 检查 Claude CLI
         run: |
           command -v claude || { echo "❌ claude CLI not found"; exit 1; }
@@ -32,12 +35,12 @@ jobs:
           # 防止 Mac 休眠
           caffeinate -s -w $$ &
 
-          PROMPT=$(cat .github/prompts/weekly-update.md)
+          PROMPT="Today is $(date +%Y-%m-%d). $(cat .github/prompts/weekly-update.md)"
           echo "🔍 开始搜索最新算法自动化工具..."
 
           claude -p "$PROMPT" \
             --max-turns 30 \
-            --allowedTools "WebSearch,Read,Edit,Write,Glob,Grep,Bash(git diff*),Bash(git status*),Bash(wc *)" \
+            --allowedTools "WebSearch,Read,Edit,Write,Glob,Grep,Bash(git diff*),Bash(git status*),Bash(wc *),Bash(date*)" \
             2>&1 | tee /tmp/awesome-algo-update.log
 
           echo "✅ Claude 搜索完成"

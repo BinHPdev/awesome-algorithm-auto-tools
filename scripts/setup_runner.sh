@@ -21,8 +21,15 @@
 set -e
 
 GITHUB_REPO="https://github.com/BinHPdev/awesome-algorithm-auto-tools"
-RUNNER_TOKEN="YOUR_RUNNER_TOKEN_FROM_GITHUB"
+RUNNER_TOKEN="${1:-$RUNNER_TOKEN}"
 RUNNER_NAME="algo-tools-runner"
+
+if [ -z "$RUNNER_TOKEN" ] || [ "$RUNNER_TOKEN" = "YOUR_RUNNER_TOKEN_FROM_GITHUB" ]; then
+  echo "❌ 请提供 Runner Token："
+  echo "   用法: ./scripts/setup_runner.sh <YOUR_TOKEN>"
+  echo "   或:   RUNNER_TOKEN=xxx ./scripts/setup_runner.sh"
+  exit 1
+fi
 RUNNER_DIR="$HOME/actions-runner-algo"
 
 echo "======================================"

@@ -1,3 +1,4 @@
 # Update script logs
 scripts/*.log
 scripts/last-run-*.log
+.github/last-update-log.md
