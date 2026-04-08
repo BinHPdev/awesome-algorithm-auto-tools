@@ -1,0 +1,69 @@
+name: Weekly Content Update
+
+on:
+  schedule:
+    # 每周五中午 12:00 北京时间 (UTC+8) = 04:00 UTC
+    - cron: '0 4 * * 5'
+  workflow_dispatch:
+    # 支持手动触发
+
+jobs:
+  update:
+    # 在本地 Mac 执行（复用 ClaudeNotice 的 self-hosted runner）
+    runs-on: self-hosted
+    permissions:
+      contents: write
+
+    timeout-minutes: 30
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: 检查 Claude CLI
+        run: |
+          command -v claude || { echo "❌ claude CLI not found"; exit 1; }
+          echo "✅ Claude CLI ready"
+
+      - name: 运行 Claude Code 搜索更新
+        timeout-minutes: 20
+        run: |
+          # 防止 Mac 休眠
+          caffeinate -s -w $$ &
+
+          PROMPT=$(cat .github/prompts/weekly-update.md)
+          echo "🔍 开始搜索最新算法自动化工具..."
+
+          claude -p "$PROMPT" \
+            --max-turns 30 \
+            --allowedTools "WebSearch,Read,Edit,Write,Glob,Grep,Bash(git diff*),Bash(git status*),Bash(wc *)" \
+            2>&1 | tee /tmp/awesome-algo-update.log
+
+          echo "✅ Claude 搜索完成"
+
+      - name: 提交并推送
+        run: |
+          git config user.name  "AlgoTools Bot"
+          git config user.email "bot@awesome-algo-tools.local"
+
+          # 暂存主文件
+          git add README.md "算法自动化训练.md"
+
+          # 检查是否有实际变更
+          if git diff --cached --quiet; then
+            echo "📭 本周无新工具，跳过提交"
+            exit 0
+          fi
+
+          echo "📝 检测到变更："
+          git diff --cached --stat
+
+          git commit -m "chore: weekly update $(date +%Y-%m-%d)
+
+          Automated scan for new algorithm automation tools.
+
+          Co-Authored-By: Claude <noreply@anthropic.com>"
+
+          git push origin main
+          echo "✅ 已推送到 main"
