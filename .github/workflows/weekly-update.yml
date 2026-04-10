@@ -31,6 +31,9 @@ jobs:
 
       - name: 运行 Claude Code 搜索更新
         timeout-minutes: 20
+        env:
+          # 恢复原始 HOME，让 Claude CLI 复用本机登录态（同 ClaudeNotice runner）
+          HOME: /Users/bin
         run: |
           # 防止 Mac 休眠
           caffeinate -s -w $$ &
