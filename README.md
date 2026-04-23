@@ -50,6 +50,9 @@ This repository collects the best open-source tools and frameworks that make thi
 | [ShinkaEvolve](https://github.com/SakanaAI) | LLM-as-mutation-operator program evolution framework | Evolves programs for scientific discovery |
 | [AI-Supervisor](https://arxiv.org/abs/2603.24402) | Autonomous research supervision via persistent Research World Model | Multi-agent consensus + Knowledge Graph; validates claims via GPU computation; self-correcting updates |
 | [ARIS](https://github.com/wanshuiyin/Auto-claude-code-research-in-sleep) | Lightweight Markdown-only skills for autonomous ML research overnight | Zero dependencies; cross-model review loops; 20+ GPU experiments per overnight run; works with any LLM agent |
+| [AutoKernel](https://github.com/RightNow-AI/autokernel) | Autoresearch for GPU kernels — sleep, wake to optimized Triton kernels | 1.2K+ stars; 5.29x speedup on RMSNorm H100; integrates with KernelBench |
+| [KernelAgent](https://github.com/meta-pytorch/KernelAgent) | Meta's autonomous deep-agent framework for GPU kernel generation | Under meta-pytorch org; auto-discover strategy; multi-model relay for kernel optimization |
+| [PaperOrchestra](https://github.com/Ar9av/PaperOrchestra) | Automated AI research-paper writer via coding-agent skills | Implements Google's PaperOrchestra; no API keys or LLM SDKs; works with Claude Code, Cursor, Aider |
 
 ## Agent-Driven Training Skills (HuggingFace Ecosystem)
 
@@ -59,6 +62,7 @@ This repository collects the best open-source tools and frameworks that make thi
 |---------|-------------|---------------|
 | [HuggingFace Skills](https://github.com/huggingface/skills) | Standardized ML skill packages for coding agents | 12 skills: model training (SFT/DPO/GRPO), vision training, experiment tracking, evaluation, dataset management |
 | [HuggingFace AutoTrain](https://github.com/huggingface/autotrain-advanced) | No-code training platform | Upload data → auto model selection → training → evaluation → Hub publishing |
+| [ml-intern](https://github.com/huggingface/ml-intern) | Open-source ML engineer that reads papers, trains models, ships them | HF Hub + smolagents integration; 900+ stars; end-to-end LLM post-training on HF Jobs |
 
 **HF Skills covers:**
 - `hugging-face-model-trainer` — Fine-tune LLMs with TRL (SFT, DPO, GRPO), 0.5B to 70B parameters
@@ -336,6 +340,7 @@ Generate data at scale → train efficiently → evaluate comprehensively.
 10. **Multimodal RL**: LLaVA-OneVision-1.5-RL and OpenRLHF-M bring RL alignment to vision-language models
 11. **Extreme Quantization**: Google TurboQuant achieves 6x KV cache compression at zero accuracy loss (ICLR 2026); NVIDIA Model Optimizer unifies quantization/pruning/distillation
 12. **Multi-Agent Coding Wave**: Feb 2026 saw every major tool ship multi-agent capabilities (Grok Build, Windsurf, Claude Code, Codex CLI, Devin) — coding agents now routinely write training scripts
+13. **Kernel-Level Autoresearch**: Apr 2026 — autonomous agents for GPU kernel generation (Meta's KernelAgent, RightNow AI's AutoKernel) extend the "autoresearch" paradigm down to training infrastructure itself
 
 ---
 
@@ -366,4 +371,4 @@ This curated list is released under [CC0 1.0](https://creativecommons.org/public
 
 ---
 
-*Compiled March 2026, updated April 2026. Project statuses may change — check individual GitHub repos for the latest.*
+*Compiled March 2026, updated 2026-04-22. Project statuses may change — check individual GitHub repos for the latest.*
