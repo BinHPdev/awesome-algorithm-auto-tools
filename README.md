@@ -53,6 +53,7 @@ This repository collects the best open-source tools and frameworks that make thi
 | [AutoKernel](https://github.com/RightNow-AI/autokernel) | Autoresearch for GPU kernels — sleep, wake to optimized Triton kernels | 1.2K+ stars; 5.29x speedup on RMSNorm H100; integrates with KernelBench |
 | [KernelAgent](https://github.com/meta-pytorch/KernelAgent) | Meta's autonomous deep-agent framework for GPU kernel generation | Under meta-pytorch org; auto-discover strategy; multi-model relay for kernel optimization |
 | [PaperOrchestra](https://github.com/Ar9av/PaperOrchestra) | Automated AI research-paper writer via coding-agent skills | Implements Google's PaperOrchestra; no API keys or LLM SDKs; works with Claude Code, Cursor, Aider |
+| [Deep Researcher Agent](https://github.com/Xiangyue-Zhang/auto-deep-researcher-24x7) | Autonomous framework for 24/7 deep learning experimentation (U Tokyo, Apr 2026) | Leader-Worker multi-agent; Zero-Cost Monitoring; constant-size ~5K memory; 500+ cycles over 30 days at $0.08/24h |
 
 ## Agent-Driven Training Skills (HuggingFace Ecosystem)
 
@@ -112,6 +113,7 @@ This repository collects the best open-source tools and frameworks that make thi
 | [OpenManus-RL](https://github.com/OpenManus/OpenManus-RL) | RL tuning for LLM agents (UIUC + MetaGPT) | PPO-based; AgentGym environments + verl training |
 | [LlamaGym](https://github.com/KhoomeiK/LlamaGym) | Online RL fine-tuning for LLM agents | Define agent → create LLM → write RL loop |
 | [Reasoning Gym](https://github.com/open-thought/reasoning-gym) | Procedural reasoning environments for RLVR | 100+ tasks; NeurIPS 2025 Spotlight; unlimited controllable task generation |
+| [ART (Agent Reinforcement Trainer)](https://github.com/OpenPipe/ART) | OpenPipe's open-source GRPO framework for training multi-step agents | Native multi-turn & tool-call support; vLLM inference + Unsloth training; LangGraph + MCP integration; auto LoRA checkpoint reload |
 
 ## Automated Hyperparameter Optimization / AutoML
 
@@ -154,6 +156,7 @@ This repository collects the best open-source tools and frameworks that make thi
 | [synth_gen](https://github.com/facebookresearch/synth_gen) | Execution-verified synthetic data (Meta) | Modular verifier system; parser-based verification for code |
 | [Evidently](https://github.com/evidentlyai/evidently) | Open-source synthetic data generation with user profiles | Model-agnostic; customizable personas & goals; no-code UI in Evidently Cloud; outputs to pandas DataFrame |
 | [NVIDIA Nemotron-4 340B](https://blogs.nvidia.com/blog/nemotron-4-synthetic-data-generation-llm-training/) | Open models for synthetic data generation pipeline | Base + Instruct + Reward models; commercial use allowed |
+| [NeMo Data Designer](https://github.com/NVIDIA-NeMo/DataDesigner) | NVIDIA's compound AI system for high-quality synthetic data generation | Dependency-aware fields; statistical samplers + LLM generation; LLM-as-judge scoring; image generation (v0.5.1); preview mode |
 
 ### Data Curation & Filtering
 
@@ -289,6 +292,7 @@ This repository collects the best open-source tools and frameworks that make thi
 | [OpenCode](https://github.com/opencode-ai/opencode) | Go-based terminal AI agent with 95K+ GitHub stars | Bubble Tea TUI; 75+ LLM providers; 6.5M monthly developers; SQLite persistence |
 | [Plandex](https://github.com/plandex-ai/plandex) | Terminal agent for large projects with 2M token context | Tree-sitter project maps; diff review sandbox; auto-debugging; 30+ languages |
 | [Roo Code](https://github.com/RooVetGit/Roo-Code) | Terminal agent with 95K+ GitHub stars | 75+ LLM providers; plan-first development; 2.5M monthly developers |
+| [Gemini CLI](https://github.com/google-gemini/gemini-cli) | Google's open-source terminal AI agent (Apache 2.0) | Free tier: 60 req/min & 1K req/day; Gemini 2.5 Pro; MCP support; weekly stable releases |
 
 ---
 
@@ -371,4 +375,4 @@ This curated list is released under [CC0 1.0](https://creativecommons.org/public
 
 ---
 
-*Compiled March 2026, updated 2026-04-22. Project statuses may change — check individual GitHub repos for the latest.*
+*Compiled March 2026, updated 2026-04-23. Project statuses may change — check individual GitHub repos for the latest.*
