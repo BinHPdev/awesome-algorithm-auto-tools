@@ -293,6 +293,7 @@ This repository collects the best open-source tools and frameworks that make thi
 | [Plandex](https://github.com/plandex-ai/plandex) | Terminal agent for large projects with 2M token context | Tree-sitter project maps; diff review sandbox; auto-debugging; 30+ languages |
 | [Roo Code](https://github.com/RooVetGit/Roo-Code) | Terminal agent with 95K+ GitHub stars | 75+ LLM providers; plan-first development; 2.5M monthly developers |
 | [Gemini CLI](https://github.com/google-gemini/gemini-cli) | Google's open-source terminal AI agent (Apache 2.0) | Free tier: 60 req/min & 1K req/day; Gemini 2.5 Pro; MCP support; weekly stable releases |
+| [Claw Code](https://github.com/ultraworkers/claw-code) | Open-source Rust rewrite of Claude Code agent harness architecture | 100K+ stars; fastest GitHub repo to 100K stars; multi-provider (Anthropic/OpenAI/xAI/Ollama/OpenRouter) |
 
 ---
 
@@ -375,4 +376,4 @@ This curated list is released under [CC0 1.0](https://creativecommons.org/public
 
 ---
 
-*Compiled March 2026, updated 2026-04-23. Project statuses may change — check individual GitHub repos for the latest.*
+*Compiled March 2026, updated 2026-04-24. Project statuses may change — check individual GitHub repos for the latest.*
