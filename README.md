@@ -54,6 +54,7 @@ This repository collects the best open-source tools and frameworks that make thi
 | [KernelAgent](https://github.com/meta-pytorch/KernelAgent) | Meta's autonomous deep-agent framework for GPU kernel generation | Under meta-pytorch org; auto-discover strategy; multi-model relay for kernel optimization |
 | [PaperOrchestra](https://github.com/Ar9av/PaperOrchestra) | Automated AI research-paper writer via coding-agent skills | Implements Google's PaperOrchestra; no API keys or LLM SDKs; works with Claude Code, Cursor, Aider |
 | [Deep Researcher Agent](https://github.com/Xiangyue-Zhang/auto-deep-researcher-24x7) | Autonomous framework for 24/7 deep learning experimentation (U Tokyo, Apr 2026) | Leader-Worker multi-agent; Zero-Cost Monitoring; constant-size ~5K memory; 500+ cycles over 30 days at $0.08/24h |
+| [AI-Researcher](https://github.com/HKUDS/AI-Researcher) | Fully autonomous research system: literature review → hypothesis → implementation → paper (NeurIPS 2025 Spotlight) | 4.8K+ stars; Resource Analyst agents reduce hallucination; Scientist-Bench benchmark for standardized evaluation |
 
 ## Agent-Driven Training Skills (HuggingFace Ecosystem)
 
@@ -114,6 +115,7 @@ This repository collects the best open-source tools and frameworks that make thi
 | [LlamaGym](https://github.com/KhoomeiK/LlamaGym) | Online RL fine-tuning for LLM agents | Define agent → create LLM → write RL loop |
 | [Reasoning Gym](https://github.com/open-thought/reasoning-gym) | Procedural reasoning environments for RLVR | 100+ tasks; NeurIPS 2025 Spotlight; unlimited controllable task generation |
 | [ART (Agent Reinforcement Trainer)](https://github.com/OpenPipe/ART) | OpenPipe's open-source GRPO framework for training multi-step agents | Native multi-turn & tool-call support; vLLM inference + Unsloth training; LangGraph + MCP integration; auto LoRA checkpoint reload |
+| [MARTI](https://github.com/TsinghuaC3I/MARTI) | Tsinghua's framework for multi-agent LLM system RL training (MARTI-v2 Feb 2026) | Built on OpenRLHF; dynamic multi-agent workflows; GSPO loss; up to 32K token sequences; MARS2 tree-search RL for code |
 
 ## Automated Hyperparameter Optimization / AutoML
 
@@ -157,6 +159,7 @@ This repository collects the best open-source tools and frameworks that make thi
 | [Evidently](https://github.com/evidentlyai/evidently) | Open-source synthetic data generation with user profiles | Model-agnostic; customizable personas & goals; no-code UI in Evidently Cloud; outputs to pandas DataFrame |
 | [NVIDIA Nemotron-4 340B](https://blogs.nvidia.com/blog/nemotron-4-synthetic-data-generation-llm-training/) | Open models for synthetic data generation pipeline | Base + Instruct + Reward models; commercial use allowed |
 | [NeMo Data Designer](https://github.com/NVIDIA-NeMo/DataDesigner) | NVIDIA's compound AI system for high-quality synthetic data generation | Dependency-aware fields; statistical samplers + LLM generation; LLM-as-judge scoring; image generation (v0.5.1); preview mode |
+| [synthetic-data-kit](https://github.com/meta-llama/synthetic-data-kit) | Meta's CLI tool for generating fine-tuning datasets from any document (PDF, HTML, YouTube, DOCX) | 4-step pipeline: ingest → create → curate → save-as; QA pairs + CoT reasoning + summaries; LLM-as-judge filtering |
 
 ### Data Curation & Filtering
 
@@ -346,6 +349,8 @@ Generate data at scale → train efficiently → evaluate comprehensively.
 11. **Extreme Quantization**: Google TurboQuant achieves 6x KV cache compression at zero accuracy loss (ICLR 2026); NVIDIA Model Optimizer unifies quantization/pruning/distillation
 12. **Multi-Agent Coding Wave**: Feb 2026 saw every major tool ship multi-agent capabilities (Grok Build, Windsurf, Claude Code, Codex CLI, Devin) — coding agents now routinely write training scripts
 13. **Kernel-Level Autoresearch**: Apr 2026 — autonomous agents for GPU kernel generation (Meta's KernelAgent, RightNow AI's AutoKernel) extend the "autoresearch" paradigm down to training infrastructure itself
+14. **Multi-Agent RL Systems**: MARTI, rLLM, ART, OpenManus-RL — RL training now targets multi-agent systems, not just individual models; centralized multi-agent interactions with distributed policy training becoming standard
+15. **Agentic Data Creation**: Meta synthetic-data-kit (document → dataset pipeline) and the Autodata framework show that AI agents iterating over their own data generation dramatically outperforms standard synthetic data methods
 
 ---
 
@@ -376,4 +381,4 @@ This curated list is released under [CC0 1.0](https://creativecommons.org/public
 
 ---
 
-*Compiled March 2026, updated 2026-04-24. Project statuses may change — check individual GitHub repos for the latest.*
+*Compiled March 2026, updated 2026-05-08. Project statuses may change — check individual GitHub repos for the latest.*
