@@ -14,7 +14,7 @@ jobs:
     permissions:
       contents: write
 
-    timeout-minutes: 30
+    timeout-minutes: 60
     steps:
       - name: 检出代码
         uses: actions/checkout@v4
@@ -30,12 +30,13 @@ jobs:
           echo "✅ Claude CLI ready"
 
       - name: 运行 Claude Code 搜索更新
-        timeout-minutes: 20
+        timeout-minutes: 45
         env:
           # 长期 OAuth token：复用 Claude Max 订阅，不走 API 计费
           # 本地 `claude setup-token` 生成，存到仓库 secret
           CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
         run: |
+          set -o pipefail
           # 防止 Mac 休眠
           caffeinate -s -w $$ &
 
@@ -43,9 +44,10 @@ jobs:
           echo "🔍 开始搜索最新算法自动化工具..."
 
           claude -p "$PROMPT" \
-            --max-turns 50 \
+            --max-turns 25 \
+            --output-format stream-json \
             --allowedTools "WebSearch,Read,Edit,Write,Glob,Grep,Bash(git diff*),Bash(git status*),Bash(wc *),Bash(date*)" \
-            2>&1 | tee /tmp/awesome-algo-update.log
+            2>&1 | tee /tmp/awesome-algo-update.log | python3 -u .github/scripts/stream-parser.py 2>/dev/null
 
           echo "✅ Claude 搜索完成"
 
