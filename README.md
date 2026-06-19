@@ -55,6 +55,9 @@ This repository collects the best open-source tools and frameworks that make thi
 | [PaperOrchestra](https://github.com/Ar9av/PaperOrchestra) | Automated AI research-paper writer via coding-agent skills | Implements Google's PaperOrchestra; no API keys or LLM SDKs; works with Claude Code, Cursor, Aider |
 | [Deep Researcher Agent](https://github.com/Xiangyue-Zhang/auto-deep-researcher-24x7) | Autonomous framework for 24/7 deep learning experimentation (U Tokyo, Apr 2026) | Leader-Worker multi-agent; Zero-Cost Monitoring; constant-size ~5K memory; 500+ cycles over 30 days at $0.08/24h |
 | [AI-Researcher](https://github.com/HKUDS/AI-Researcher) | Fully autonomous research system: literature review → hypothesis → implementation → paper (NeurIPS 2025 Spotlight) | 4.8K+ stars; Resource Analyst agents reduce hallucination; Scientist-Bench benchmark for standardized evaluation |
+| [Deli_AutoResearch](https://victorchen96.github.io/auto_research/framework.html) | Protocol framework for **long-horizon** (days–weeks) autonomous research — orchestrator + fresh-session workers, anti-loop & stall watchdog | By Chen Deli (@victorchen96); fresh-session architecture (no context accumulation), 3-layer heartbeat watchdog, JSON state persistence; produced 4 survey papers (265 pages, 1158 citations, 8.5+ self-score) incl. a 285B-param GRPO experiment in ~44h |
+| [AutoResearchClaw](https://github.com/aiming-lab/AutoResearchClaw) | "Chat an Idea. Get a Paper." Fully autonomous idea→paper pipeline (23 stages) | 13.5K+ stars, MIT; 6 human-in-the-loop modes (full-auto → co-pilot); 4-layer citation verification vs. hallucination; hardware-aware sandbox experiments; 8 papers across 8 domains; ARC-Bench |
+| [pi-autoresearch](https://github.com/davebcn87/pi-autoresearch) | Domain-agnostic port of Karpathy's loop — optimize **any measurable metric** (test speed, bundle size, Lighthouse, training loss) | 7K+ stars, MIT; extension = infra, skill = domain knowledge; append-only JSONL + markdown session log → resumes across restarts/context resets |
 
 ## Agent-Driven Training Skills (HuggingFace Ecosystem)
 
@@ -336,7 +339,7 @@ Generate data at scale → train efficiently → evaluate comprehensively.
 
 ## Trends (2026 Q2 Update)
 
-1. **AutoResearch Paradigm**: Karpathy proved "AI autonomously doing ML research" works with just 630 lines of code — now spawning derivatives like ARIS and AI-Supervisor
+1. **AutoResearch Paradigm**: Karpathy proved "AI autonomously doing ML research" works with just 630 lines of code (66K+ stars by Apr 2026) — now a full ecosystem of derivatives: ARIS, AI-Supervisor, AutoResearchClaw (idea→paper), Deli_AutoResearch (long-horizon protocol), and the domain-agnostic pi-autoresearch port
 2. **"Vibe Training"**: HF Skills enables natural-language-driven model training lifecycle
 3. **GRPO Variants Proliferate**: f-GRPO (f-divergence family), Tree-GRPO (tree search, ICLR 2026), DAPO — GRPO is the new default, and specialized variants are emerging fast
 4. **RL Framework Explosion**: verl, DAPO, AReaL, slime — every major lab now has an open-source RL training framework
@@ -351,6 +354,7 @@ Generate data at scale → train efficiently → evaluate comprehensively.
 13. **Kernel-Level Autoresearch**: Apr 2026 — autonomous agents for GPU kernel generation (Meta's KernelAgent, RightNow AI's AutoKernel) extend the "autoresearch" paradigm down to training infrastructure itself
 14. **Multi-Agent RL Systems**: MARTI, rLLM, ART, OpenManus-RL — RL training now targets multi-agent systems, not just individual models; centralized multi-agent interactions with distributed policy training becoming standard
 15. **Agentic Data Creation**: Meta synthetic-data-kit (document → dataset pipeline) and the Autodata framework show that AI agents iterating over their own data generation dramatically outperforms standard synthetic data methods
+16. **Autoresearch Becomes a Primitive**: Jun 2026 — the loop generalized beyond ML into a reusable "experiment → measure → keep/revert" infrastructure; pi-autoresearch optimizes any measurable metric (test speed, bundle size, Lighthouse), while idea→paper systems (AutoResearchClaw) and long-horizon protocols (Deli_AutoResearch) push autonomy from minutes to weeks
 
 ---
 
@@ -381,4 +385,4 @@ This curated list is released under [CC0 1.0](https://creativecommons.org/public
 
 ---
 
-*Compiled March 2026, updated 2026-05-08. Project statuses may change — check individual GitHub repos for the latest.*
+*Compiled March 2026, updated 2026-06-19. Project statuses may change — check individual GitHub repos for the latest.*
