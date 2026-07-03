@@ -31,10 +31,9 @@ jobs:
 
       - name: 运行 Claude Code 搜索更新
         timeout-minutes: 45
-        env:
-          # 长期 OAuth token：复用 Claude Max 订阅，不走 API 计费
-          # 本地 `claude setup-token` 生成，存到仓库 secret
-          CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+        # 不设置 CLAUDE_CODE_OAUTH_TOKEN：组织已禁用长期令牌复用订阅额度，
+        # 改为直接复用 runner 本机（自托管在这台 Mac 上）已登录的 claude.ai 会话，
+        # 该会话不受此限制。需要这台 Mac 保持 `claude login` 登录状态。
         run: |
           set -o pipefail
           # 防止 Mac 休眠
