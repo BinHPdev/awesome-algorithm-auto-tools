@@ -76,7 +76,7 @@ jobs:
           # pipefail 确保 claude 认证/运行失败（非零退出）会让整个步骤变红，
           # 而不是被 stream-parser 吞掉——这正是本仓库和 ClaudeNotice 的区别。
           claude -p "$PROMPT" \
-            --max-turns 25 \
+            --max-turns 50 \
             --verbose \
             --output-format stream-json \
             --allowedTools "WebSearch,Read,Edit,Write,Glob,Grep,Bash(git diff*),Bash(git status*),Bash(wc *),Bash(date*)" \
