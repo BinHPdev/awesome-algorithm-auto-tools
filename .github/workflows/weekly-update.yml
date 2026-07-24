@@ -19,12 +19,14 @@ jobs:
     # ── 认证说明 ──────────────────────────────────────────────
     # self-hosted runner 是 launchd 后台服务，无法读取 GUI 登录会话钥匙串里的
     # claude.ai 订阅登录态，claude 会报 "Not logged in · Please run /login"。
-    # macOS 上 Claude Code 只用钥匙串、无文件回退，因此 CI 里改用 ANTHROPIC_API_KEY：
-    # 它作为 X-Api-Key 头直接发送、完全绕开钥匙串，并走独立 API 计费
-    # （与组织禁用的「订阅额度长期令牌复用」互不冲突）。
-    # 需在仓库 Settings → Secrets and variables → Actions 配置 ANTHROPIC_API_KEY。
+    # macOS 上 Claude Code 只用钥匙串、无文件回退，因此 CI 里通过环境变量提供
+    # 订阅令牌：CLAUDE_CODE_OAUTH_TOKEN 绕开钥匙串、免费复用订阅额度。
+    #
+    # 令牌生成/更新（会过期，失效时重跑）：
+    #   claude setup-token   # 浏览器授权后打印长效 token
+    #   gh secret set CLAUDE_CODE_OAUTH_TOKEN --repo BinHPdev/awesome-algorithm-auto-tools
     env:
-      ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+      CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
 
     steps:
       - name: 检出代码
@@ -53,12 +55,13 @@ jobs:
         run: |
           command -v claude || { echo "❌ claude CLI not found"; exit 1; }
           claude --version || true
-          if [ -z "$ANTHROPIC_API_KEY" ]; then
-            echo "❌ 未配置 ANTHROPIC_API_KEY secret"
-            echo "   请在仓库 Settings → Secrets and variables → Actions 添加 ANTHROPIC_API_KEY"
+          if [ -z "$CLAUDE_CODE_OAUTH_TOKEN" ]; then
+            echo "❌ 未配置 CLAUDE_CODE_OAUTH_TOKEN secret（或已过期被清空）"
+            echo "   生成：claude setup-token"
+            echo "   写入：gh secret set CLAUDE_CODE_OAUTH_TOKEN --repo BinHPdev/awesome-algorithm-auto-tools"
             exit 1
           fi
-          echo "✅ Claude CLI ready，已检测到 ANTHROPIC_API_KEY"
+          echo "✅ Claude CLI ready，已检测到 CLAUDE_CODE_OAUTH_TOKEN"
 
       - name: 运行 Claude Code 搜索更新
         timeout-minutes: 45
