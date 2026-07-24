@@ -58,6 +58,7 @@ This repository collects the best open-source tools and frameworks that make thi
 | [Deli_AutoResearch](https://victorchen96.github.io/auto_research/framework.html) | Protocol framework for **long-horizon** (days–weeks) autonomous research — orchestrator + fresh-session workers, anti-loop & stall watchdog | By Chen Deli (@victorchen96); fresh-session architecture (no context accumulation), 3-layer heartbeat watchdog, JSON state persistence; produced 4 survey papers (265 pages, 1158 citations, 8.5+ self-score) incl. a 285B-param GRPO experiment in ~44h |
 | [AutoResearchClaw](https://github.com/aiming-lab/AutoResearchClaw) | "Chat an Idea. Get a Paper." Fully autonomous idea→paper pipeline (23 stages) | 13.5K+ stars, MIT; 6 human-in-the-loop modes (full-auto → co-pilot); 4-layer citation verification vs. hallucination; hardware-aware sandbox experiments; 8 papers across 8 domains; ARC-Bench |
 | [pi-autoresearch](https://github.com/davebcn87/pi-autoresearch) | Domain-agnostic port of Karpathy's loop — optimize **any measurable metric** (test speed, bundle size, Lighthouse, training loss) | 7K+ stars, MIT; extension = infra, skill = domain knowledge; append-only JSONL + markdown session log → resumes across restarts/context resets |
+| [OpenScience](https://github.com/synthetic-sciences/openscience) | Model-agnostic AI workbench that runs the **full research loop** — literature → hypothesis → code → experiment → analysis → write-up (Synthetic Sciences, Jul 2026) | Apache-2.0; 250+ editable skills + 30+ scientific databases (UniProt, PDB, ChEMBL, arXiv) as agent tools; any model swappable per-request (Claude/GPT/Gemini/GLM/DeepSeek/local); local-first, keys stay on your machine |
 
 ## Agent-Driven Training Skills (HuggingFace Ecosystem)
 
@@ -122,6 +123,8 @@ This repository collects the best open-source tools and frameworks that make thi
 | [Arctic RL](https://github.com/Snowflake-AI-Research/Arctic-Platform) | Snowflake's open-source RL post-training backend (Jun 2026) | ZoRRo (Zero Redundancy Rollouts) auto-dedupes shared prompts — up to 6x actor-update & 3.5x end-to-end speedup; Arctic-Text2SQL-R2 from ~5 days → ~36h on 32 H200; plugs into existing RL frameworks |
 | [OpenRL](https://github.com/gke-labs/open-rl) | Google GKE Labs' self-hosted post-training / RL API (Jun 2026) | Tinker-compatible API; runs on any Kubernetes cluster; multi-job scheduling for high GPU utilization; imperative Python RL loops from your laptop; LoRA-first |
 | [OpenClaw-RL](https://github.com/Gen-Verse/OpenClaw-RL) | Princeton's fully-async RL that trains agents from live conversations | Wraps model as OpenAI-compatible API; turns user corrections & trace errors into gradients; scalar PRM + token-level Hindsight-Guided On-Policy Distillation; zero manual labeling; personal + general agents |
+| [vime](https://github.com/vllm-project/vime) | Official vLLM-ecosystem RL post-training framework — Megatron training + vLLM rollout in one pipeline (Jun 2026) | Apache-2.0; built on slime's training design; fully async pipelines + train-inference mismatch correction; agentic RL for multi-turn tool calling & multi-agent; MoE/VLM support; AMD ROCm native |
+| [dLLM-RL (TraceRL)](https://github.com/Gen-Verse/dLLM-RL) | First RL post-training framework for **diffusion LLMs** (ICLR 2026, Princeton/Gen-Verse) | Trajectory-aware RL + diffusion value model for stability; powers the SOTA TraDo series; TraDo-8B-Instruct beats Qwen2.5-7B on math; SFT/RL/RLHF across math/code/multimodal & architectures |
 
 ## Automated Hyperparameter Optimization / AutoML
 
@@ -186,6 +189,7 @@ This repository collects the best open-source tools and frameworks that make thi
 | [DistillKit](https://github.com/arcee-ai/DistillKit) | Production-ready LLM distillation (Arcee AI) | Online and offline workflows; powers Arcee Virtuoso, SuperNova models |
 | [MiniPLM](https://github.com/thu-coai/MiniPLM) | Knowledge distillation for pre-training (Tsinghua, ICLR 2025) | Improved DPKD variant |
 | [DistiLLM](https://github.com/jongwooko/distillm) | Streamlined distillation with contrastive approach (ICML 2024) | DistiLLM-2 contrastive distillation |
+| [EasyOPD](https://arxiv.org/abs/2607.11012) | First unified **on-policy distillation** (OPD) framework — 10+ methods with one-line YAML switching (Jul 2026) | Built on verl; covers cross-tokenizer, self-distillation & step-wise OPD; separates config / supervision logic / execution; runnable configs + demo package |
 
 ## Model Merging & Quantization
 
@@ -361,6 +365,8 @@ Generate data at scale → train efficiently → evaluate comprehensively.
 15. **Agentic Data Creation**: Meta synthetic-data-kit (document → dataset pipeline) and the Autodata framework show that AI agents iterating over their own data generation dramatically outperforms standard synthetic data methods
 16. **Autoresearch Becomes a Primitive**: Jun 2026 — the loop generalized beyond ML into a reusable "experiment → measure → keep/revert" infrastructure; pi-autoresearch optimizes any measurable metric (test speed, bundle size, Lighthouse), while idea→paper systems (AutoResearchClaw) and long-horizon protocols (Deli_AutoResearch) push autonomy from minutes to weeks
 17. **RL Systems Layer + Continuous Online RL**: Jul 2026 — RL efficiency is becoming its own infrastructure tier: Snowflake's Arctic RL (ZoRRo prompt-dedup, 3.5x end-to-end speedup) and Google's Tinker-compatible OpenRL (Kubernetes-native, multi-job GPU packing) decouple RL systems optimization from algorithms, while OpenClaw-RL turns *live deployment conversations* into always-on training signal — RL is shifting from offline batch jobs to standing, always-learning services
+18. **On-Policy Distillation Goes Mainstream**: Jul 2026 — OPD (student generates, teacher grades on-policy) is emerging as a standard post-training stage between SFT and RL; EasyOPD unifies 10+ OPD methods (cross-tokenizer, self-distillation, step-wise) on verl with one-line YAML switching, making it as configurable as fine-tuning
+19. **RL Reaches New Substrates + Full-Science Autoresearch**: RL post-training is spreading beyond autoregressive text — Gen-Verse's dLLM-RL/TraceRL brings trajectory-aware RL to **diffusion LLMs** (SOTA TraDo series), and the vLLM project's own vime standardizes RL post-training inside the inference-engine ecosystem; meanwhile the autoresearch loop generalizes from ML to full-science workbenches (OpenScience: literature → hypothesis → experiment → write-up across ML/bio/physics/chem)
 
 ---
 
