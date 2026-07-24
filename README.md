@@ -119,6 +119,9 @@ This repository collects the best open-source tools and frameworks that make thi
 | [Reasoning Gym](https://github.com/open-thought/reasoning-gym) | Procedural reasoning environments for RLVR | 100+ tasks; NeurIPS 2025 Spotlight; unlimited controllable task generation |
 | [ART (Agent Reinforcement Trainer)](https://github.com/OpenPipe/ART) | OpenPipe's open-source GRPO framework for training multi-step agents | Native multi-turn & tool-call support; vLLM inference + Unsloth training; LangGraph + MCP integration; auto LoRA checkpoint reload |
 | [MARTI](https://github.com/TsinghuaC3I/MARTI) | Tsinghua's framework for multi-agent LLM system RL training (MARTI-v2 Feb 2026) | Built on OpenRLHF; dynamic multi-agent workflows; GSPO loss; up to 32K token sequences; MARS2 tree-search RL for code |
+| [Arctic RL](https://github.com/Snowflake-AI-Research/Arctic-Platform) | Snowflake's open-source RL post-training backend (Jun 2026) | ZoRRo (Zero Redundancy Rollouts) auto-dedupes shared prompts — up to 6x actor-update & 3.5x end-to-end speedup; Arctic-Text2SQL-R2 from ~5 days → ~36h on 32 H200; plugs into existing RL frameworks |
+| [OpenRL](https://github.com/gke-labs/open-rl) | Google GKE Labs' self-hosted post-training / RL API (Jun 2026) | Tinker-compatible API; runs on any Kubernetes cluster; multi-job scheduling for high GPU utilization; imperative Python RL loops from your laptop; LoRA-first |
+| [OpenClaw-RL](https://github.com/Gen-Verse/OpenClaw-RL) | Princeton's fully-async RL that trains agents from live conversations | Wraps model as OpenAI-compatible API; turns user corrections & trace errors into gradients; scalar PRM + token-level Hindsight-Guided On-Policy Distillation; zero manual labeling; personal + general agents |
 
 ## Automated Hyperparameter Optimization / AutoML
 
@@ -245,6 +248,7 @@ This repository collects the best open-source tools and frameworks that make thi
 |---------|-------------|---------------|
 | [LLaVA-OneVision-1.5](https://github.com/EvolvingLMMs-Lab/LLaVA-OneVision-1.5) | Fully open-source multimodal training | Native-resolution images; SOTA performance; lower training costs |
 | [LLaVA-OneVision-1.5-RL](https://github.com/EvolvingLMMs-Lab/LLaVA-OneVision-1.5-RL) | Democratized multimodal RL training | Open code, data, and models for multimodal RLHF |
+| [LLaVA-OneVision-2](https://github.com/EvolvingLMMs-Lab/LLaVA-OneVision-2) | Next-generation fully-open multimodal training framework (EvolvingLMMs-Lab, arXiv 2605.25979) | Unified native OneVision-Encoder for image / long-video / spatial; 8B-class, no task-specific adapters; every stage, dataset & weight reproducible end-to-end |
 | [OpenRLHF-M](https://github.com/OpenRLHF/OpenRLHF-M) | Multimodal model RLHF training | Extension of OpenRLHF for VLMs |
 | [LLaVA-KD](https://github.com/Fantasyele/LLaVA-KD) | Multimodal knowledge distillation (ICCV 2025) | Distills large MLLMs into smaller ones |
 | [MoE-LLaVA](https://github.com/PKU-YuanGroup/MoE-LLaVA) | Mixture-of-Experts for vision-language models (TMM 2025) | Efficient multimodal MoE architecture |
@@ -272,6 +276,7 @@ This repository collects the best open-source tools and frameworks that make thi
 | [AgentBench](https://github.com/THUDM/AgentBench) | Multi-dimensional benchmark for LLM agents | Tests across OS, database, knowledge graph, web, and game environments |
 | [SWE-bench Verified](https://www.swebench.com/) | Human-verified GitHub issue resolution | Industry standard for coding agents; top scores 70%+ |
 | [LiveBench](https://livebench.ai/) | Monthly-updated contamination-free LLM benchmark | 6 categories (Math/Reasoning/Coding/Language/Data/IF); objective auto-scoring; no LLM judge needed |
+| [AgenticDataBench](https://huggingface.co/papers/2607.01647) | Comprehensive benchmark for LLM data agents (Jul 2026) | 15 domains + 5 real-world B2B fintech use cases; fine-grained skill labels (schema inspection, joins, cleaning, viz, business-context reasoning); GitHub testbed + HF dataset, Apache-2.0 |
 
 ### Model Evaluation Frameworks
 
@@ -337,7 +342,7 @@ Generate data at scale → train efficiently → evaluate comprehensively.
 
 ---
 
-## Trends (2026 Q2 Update)
+## Trends (2026 Q3 Update)
 
 1. **AutoResearch Paradigm**: Karpathy proved "AI autonomously doing ML research" works with just 630 lines of code (66K+ stars by Apr 2026) — now a full ecosystem of derivatives: ARIS, AI-Supervisor, AutoResearchClaw (idea→paper), Deli_AutoResearch (long-horizon protocol), and the domain-agnostic pi-autoresearch port
 2. **"Vibe Training"**: HF Skills enables natural-language-driven model training lifecycle
@@ -355,6 +360,7 @@ Generate data at scale → train efficiently → evaluate comprehensively.
 14. **Multi-Agent RL Systems**: MARTI, rLLM, ART, OpenManus-RL — RL training now targets multi-agent systems, not just individual models; centralized multi-agent interactions with distributed policy training becoming standard
 15. **Agentic Data Creation**: Meta synthetic-data-kit (document → dataset pipeline) and the Autodata framework show that AI agents iterating over their own data generation dramatically outperforms standard synthetic data methods
 16. **Autoresearch Becomes a Primitive**: Jun 2026 — the loop generalized beyond ML into a reusable "experiment → measure → keep/revert" infrastructure; pi-autoresearch optimizes any measurable metric (test speed, bundle size, Lighthouse), while idea→paper systems (AutoResearchClaw) and long-horizon protocols (Deli_AutoResearch) push autonomy from minutes to weeks
+17. **RL Systems Layer + Continuous Online RL**: Jul 2026 — RL efficiency is becoming its own infrastructure tier: Snowflake's Arctic RL (ZoRRo prompt-dedup, 3.5x end-to-end speedup) and Google's Tinker-compatible OpenRL (Kubernetes-native, multi-job GPU packing) decouple RL systems optimization from algorithms, while OpenClaw-RL turns *live deployment conversations* into always-on training signal — RL is shifting from offline batch jobs to standing, always-learning services
 
 ---
 
@@ -385,4 +391,4 @@ This curated list is released under [CC0 1.0](https://creativecommons.org/public
 
 ---
 
-*Compiled March 2026, updated 2026-06-19. Project statuses may change — check individual GitHub repos for the latest.*
+*Compiled March 2026, updated 2026-07-24. Project statuses may change — check individual GitHub repos for the latest.*
