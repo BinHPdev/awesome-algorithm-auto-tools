@@ -15,6 +15,17 @@ jobs:
       contents: write
 
     timeout-minutes: 60
+
+    # ── 认证说明 ──────────────────────────────────────────────
+    # self-hosted runner 是 launchd 后台服务，无法读取 GUI 登录会话钥匙串里的
+    # claude.ai 订阅登录态，claude 会报 "Not logged in · Please run /login"。
+    # macOS 上 Claude Code 只用钥匙串、无文件回退，因此 CI 里改用 ANTHROPIC_API_KEY：
+    # 它作为 X-Api-Key 头直接发送、完全绕开钥匙串，并走独立 API 计费
+    # （与组织禁用的「订阅额度长期令牌复用」互不冲突）。
+    # 需在仓库 Settings → Secrets and variables → Actions 配置 ANTHROPIC_API_KEY。
+    env:
+      ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+
     steps:
       - name: 检出代码
         uses: actions/checkout@v4
@@ -22,18 +33,35 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: 拉取最新代码
-        run: git pull origin main --rebase
+        run: |
+          # 国内访问 GitHub 偶发网络抖动（HTTP2 framing / 连接超时），加 3 次重试
+          for attempt in 1 2 3; do
+            if git pull origin main --rebase; then
+              break
+            fi
+            git rebase --abort 2>/dev/null || true
+            if [ "$attempt" -lt 3 ]; then
+              echo "git pull 失败，30s 后重试（第 $attempt 次）..."
+              sleep 30
+            else
+              echo "❌ git pull 重试 3 次仍失败"
+              exit 1
+            fi
+          done
 
-      - name: 检查 Claude CLI
+      - name: 检查 Claude CLI 与认证
         run: |
           command -v claude || { echo "❌ claude CLI not found"; exit 1; }
-          echo "✅ Claude CLI ready"
+          claude --version || true
+          if [ -z "$ANTHROPIC_API_KEY" ]; then
+            echo "❌ 未配置 ANTHROPIC_API_KEY secret"
+            echo "   请在仓库 Settings → Secrets and variables → Actions 添加 ANTHROPIC_API_KEY"
+            exit 1
+          fi
+          echo "✅ Claude CLI ready，已检测到 ANTHROPIC_API_KEY"
 
       - name: 运行 Claude Code 搜索更新
         timeout-minutes: 45
-        # 不设置 CLAUDE_CODE_OAUTH_TOKEN：组织已禁用长期令牌复用订阅额度，
-        # 改为直接复用 runner 本机（自托管在这台 Mac 上）已登录的 claude.ai 会话，
-        # 该会话不受此限制。需要这台 Mac 保持 `claude login` 登录状态。
         run: |
           set -o pipefail
           # 防止 Mac 休眠
@@ -42,6 +70,8 @@ jobs:
           PROMPT="Today is $(date +%Y-%m-%d). $(cat .github/prompts/weekly-update.md)"
           echo "🔍 开始搜索最新算法自动化工具..."
 
+          # pipefail 确保 claude 认证/运行失败（非零退出）会让整个步骤变红，
+          # 而不是被 stream-parser 吞掉——这正是本仓库和 ClaudeNotice 的区别。
           claude -p "$PROMPT" \
             --max-turns 25 \
             --verbose \
@@ -74,5 +104,18 @@ jobs:
 
           Co-Authored-By: Claude <noreply@anthropic.com>"
 
-          git push origin main
-          echo "✅ 已推送到 main"
+          # push 加 3 次重试，覆盖瞬时网络抖动 / 远端分叉（借鉴 ClaudeNotice）
+          for attempt in 1 2 3; do
+            if git push origin main; then
+              echo "✅ 已推送到 main（第 $attempt 次尝试）"
+              break
+            fi
+            if [ "$attempt" -lt 3 ]; then
+              echo "push 失败，pull --rebase 后重试（第 $attempt 次）..."
+              git pull --rebase origin main || git rebase --abort || true
+              sleep 30
+            else
+              echo "❌ push 重试 3 次仍失败"
+              exit 1
+            fi
+          done
