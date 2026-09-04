@@ -13,24 +13,32 @@ jobs:
     runs-on: self-hosted
     permissions:
       contents: write
+      issues: write
 
     timeout-minutes: 60
 
     # ── 认证说明 ──────────────────────────────────────────────
-    # self-hosted runner 是 launchd 后台服务，无法读取 GUI 登录会话钥匙串里的
-    # claude.ai 订阅登录态，claude 会报 "Not logged in · Please run /login"。
-    # macOS 上 Claude Code 只用钥匙串、无文件回退，因此 CI 里通过环境变量提供
-    # 订阅令牌：CLAUDE_CODE_OAUTH_TOKEN 绕开钥匙串、免费复用订阅额度。
+    # self-hosted runner 是 launchd LaunchAgent，无法读取 GUI 登录会话钥匙串里的
+    # claude.ai 订阅登录态（macOS 上 Claude Code 只用钥匙串、无文件回退），
+    # 因此 CI 里必须通过环境变量提供凭据。
     #
-    # 令牌生成/更新（会过期，失效时重跑）：
-    #   claude setup-token   # 浏览器授权后打印长效 token
-    #   gh secret set CLAUDE_CODE_OAUTH_TOKEN --repo BinHPdev/awesome-algorithm-auto-tools
+    # 首选：CLAUDE_CODE_OAUTH_TOKEN —— 订阅额度、免费。
+    #   注意：这个 token 会被服务端吊销（重新 /login、logout、再次 setup-token
+    #   都可能使旧 token 失效），届时所有定时任务会以
+    #   "401 OAuth access token has been revoked" 全红。刷新方式：
+    #     claude setup-token                       # 交互式浏览器授权，打印长效 token
+    #     gh secret set CLAUDE_CODE_OAUTH_TOKEN --repo BinHPdev/awesome-algorithm-auto-tools --body "<token>"
+    #   必须用 --body 传值；不带 --body 时 gh 从 stdin 读，非交互环境会写入空 secret。
+    #
+    # 备选：ANTHROPIC_API_KEY —— 按量计费、不会被吊销，适合完全无人值守。
+    #   仅在 CLAUDE_CODE_OAUTH_TOKEN 缺失时生效（空字符串对 CLI 是 falsy）。
     env:
       CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+      ANTHROPIC_API_KEY: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN == '' && secrets.ANTHROPIC_API_KEY || '' }}
 
     steps:
       - name: 检出代码
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
@@ -52,16 +60,44 @@ jobs:
           done
 
       - name: 检查 Claude CLI 与认证
+        timeout-minutes: 5
         run: |
           command -v claude || { echo "❌ claude CLI not found"; exit 1; }
           claude --version || true
-          if [ -z "$CLAUDE_CODE_OAUTH_TOKEN" ]; then
-            echo "❌ 未配置 CLAUDE_CODE_OAUTH_TOKEN secret（或已过期被清空）"
-            echo "   生成：claude setup-token"
-            echo "   写入：gh secret set CLAUDE_CODE_OAUTH_TOKEN --repo BinHPdev/awesome-algorithm-auto-tools"
+
+          if [ -n "$CLAUDE_CODE_OAUTH_TOKEN" ]; then
+            AUTH_MODE="CLAUDE_CODE_OAUTH_TOKEN（订阅额度）"
+          elif [ -n "$ANTHROPIC_API_KEY" ]; then
+            AUTH_MODE="ANTHROPIC_API_KEY（按量计费）"
+          else
+            echo "❌ 既没有 CLAUDE_CODE_OAUTH_TOKEN 也没有 ANTHROPIC_API_KEY"
+            echo "   刷新订阅 token（免费，推荐）："
+            echo "     claude setup-token"
+            echo "     gh secret set CLAUDE_CODE_OAUTH_TOKEN --repo $GITHUB_REPOSITORY --body \"<token>\""
             exit 1
           fi
-          echo "✅ Claude CLI ready，已检测到 CLAUDE_CODE_OAUTH_TOKEN"
+          echo "🔑 认证方式：$AUTH_MODE"
+
+          # 真正打一次请求验证凭据是否仍然有效。只检查 secret 非空是不够的：
+          # 2026-07-31 起连续 6 周全红，就是 token 被吊销（secret 仍在、值非空），
+          # 而旧的 -z 检查照样放行，直到主步骤才炸，日志埋在 stream-json 里。
+          PROBE_LOG=/tmp/awesome-algo-authprobe.log
+          if claude -p "Reply with exactly: OK" \
+               --max-turns 1 \
+               --output-format text \
+               --allowedTools "" < /dev/null > "$PROBE_LOG" 2>&1; then
+            echo "✅ 凭据有效，Claude CLI ready"
+          else
+            echo "❌ 凭据无效，Claude 认证探测失败："
+            sed -e 's/^/   /' "$PROBE_LOG" | head -20
+            if grep -qiE 'revoked|expired|401|Not logged in|invalid.*(token|api key)' "$PROBE_LOG"; then
+              echo ""
+              echo "   → token 已失效/被吊销。刷新步骤（在真实终端里执行，不要用后台 runner）："
+              echo "       claude setup-token"
+              echo "       gh secret set CLAUDE_CODE_OAUTH_TOKEN --repo $GITHUB_REPOSITORY --body \"<token>\""
+            fi
+            exit 1
+          fi
 
       - name: 运行 Claude Code 搜索更新
         timeout-minutes: 45
@@ -80,7 +116,7 @@ jobs:
             --verbose \
             --output-format stream-json \
             --allowedTools "WebSearch,Read,Edit,Write,Glob,Grep,Bash(git diff*),Bash(git status*),Bash(wc *),Bash(date*)" \
-            2>&1 | tee /tmp/awesome-algo-update.log | python3 -u .github/scripts/stream-parser.py 2>/dev/null
+            < /dev/null 2>&1 | tee /tmp/awesome-algo-update.log | python3 -u .github/scripts/stream-parser.py 2>/dev/null
 
           echo "✅ Claude 搜索完成"
 
@@ -122,3 +158,38 @@ jobs:
               exit 1
             fi
           done
+
+      - name: 失败时提醒（开/复用一个 issue）
+        if: failure()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          TITLE="Weekly Content Update 失败：请检查 CI 认证"
+          # 用 printf 拼 body：heredoc 想让 markdown 围栏顶格，就会顶破
+          # 外层 YAML 的 run: | 块（0 列的行会提前结束块标量）。
+          BODY=$(printf '%s\n' \
+            "定时任务 **Weekly Content Update** 失败。" \
+            "" \
+            "运行日志：$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID" \
+            "" \
+            '最常见原因是 `CLAUDE_CODE_OAUTH_TOKEN` 被服务端吊销或过期，日志里会出现' \
+            '`401 OAuth access token has been revoked`。' \
+            "在**真实终端**里刷新（后台 runner 读不到钥匙串）：" \
+            "" \
+            '```bash' \
+            "claude setup-token" \
+            "gh secret set CLAUDE_CODE_OAUTH_TOKEN --repo $GITHUB_REPOSITORY --body \"<token>\"" \
+            "gh workflow run weekly-update.yml --repo $GITHUB_REPOSITORY" \
+            '```')
+
+          # 已有未关闭的同名 issue 就只追加评论，避免每周刷一个新 issue
+          EXISTING=$(gh issue list --repo "$GITHUB_REPOSITORY" --state open --limit 100 \
+            --json number,title \
+            --jq "map(select(.title == \"$TITLE\")) | .[0].number // empty")
+          if [ -n "$EXISTING" ]; then
+            gh issue comment "$EXISTING" --repo "$GITHUB_REPOSITORY" --body "$BODY" || true
+            echo "🔔 已在 issue #$EXISTING 追加失败提醒"
+          else
+            gh issue create --repo "$GITHUB_REPOSITORY" --title "$TITLE" --body "$BODY" || true
+            echo "🔔 已创建失败提醒 issue"
+          fi
