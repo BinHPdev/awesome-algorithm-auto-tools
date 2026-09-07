@@ -59,6 +59,8 @@ This repository collects the best open-source tools and frameworks that make thi
 | [AutoResearchClaw](https://github.com/aiming-lab/AutoResearchClaw) | "Chat an Idea. Get a Paper." Fully autonomous idea→paper pipeline (23 stages) | 13.5K+ stars, MIT; 6 human-in-the-loop modes (full-auto → co-pilot); 4-layer citation verification vs. hallucination; hardware-aware sandbox experiments; 8 papers across 8 domains; ARC-Bench |
 | [pi-autoresearch](https://github.com/davebcn87/pi-autoresearch) | Domain-agnostic port of Karpathy's loop — optimize **any measurable metric** (test speed, bundle size, Lighthouse, training loss) | 7K+ stars, MIT; extension = infra, skill = domain knowledge; append-only JSONL + markdown session log → resumes across restarts/context resets |
 | [OpenScience](https://github.com/synthetic-sciences/openscience) | Model-agnostic AI workbench that runs the **full research loop** — literature → hypothesis → code → experiment → analysis → write-up (Synthetic Sciences, Jul 2026) | Apache-2.0; 250+ editable skills + 30+ scientific databases (UniProt, PDB, ChEMBL, arXiv) as agent tools; any model swappable per-request (Claude/GPT/Gemini/GLM/DeepSeek/local); local-first, keys stay on your machine |
+| [Arbor](https://github.com/RUC-NLPIR/Arbor) | Generalist autonomous research agent built on **Hypothesis-Tree Refinement** (RUC NLPIR, arXiv 2606.11926) | Long-lived coordinator + short-lived executors in isolated worktrees; persistent tree binds hypothesis → artifact → evidence → insight so lessons propagate instead of scrolling off; 2.5x average relative held-out gain vs. Codex & Claude Code on the Autonomous Optimization benchmark; transfers to MLE-Bench Lite |
+| [Sibyl-AutoResearch](https://github.com/Sibyl-Research-Team/AutoResearch-SibylSystem) | Self-evolving autonomous AI scientist built natively on Claude Code (arXiv 2605.22343) | "Autonomous research needs trial-and-error **harnesses**, not paper generators" — bounded trials preserve both positive and negative outcomes; 20+ specialized agents over a 19-stage pipeline; recurring process failures rewrite the harness itself |
 
 ## Agent-Driven Training Skills (HuggingFace Ecosystem)
 
@@ -125,6 +127,8 @@ This repository collects the best open-source tools and frameworks that make thi
 | [OpenClaw-RL](https://github.com/Gen-Verse/OpenClaw-RL) | Princeton's fully-async RL that trains agents from live conversations | Wraps model as OpenAI-compatible API; turns user corrections & trace errors into gradients; scalar PRM + token-level Hindsight-Guided On-Policy Distillation; zero manual labeling; personal + general agents |
 | [vime](https://github.com/vllm-project/vime) | Official vLLM-ecosystem RL post-training framework — Megatron training + vLLM rollout in one pipeline (Jun 2026) | Apache-2.0; built on slime's training design; fully async pipelines + train-inference mismatch correction; agentic RL for multi-turn tool calling & multi-agent; MoE/VLM support; AMD ROCm native |
 | [dLLM-RL (TraceRL)](https://github.com/Gen-Verse/dLLM-RL) | First RL post-training framework for **diffusion LLMs** (ICLR 2026, Princeton/Gen-Verse) | Trajectory-aware RL + diffusion value model for stability; powers the SOTA TraDo series; TraDo-8B-Instruct beats Qwen2.5-7B on math; SFT/RL/RLHF across math/code/multimodal & architectures |
+| [Miles](https://github.com/radixark/miles) | Enterprise-grade RL post-training framework from the LMSYS / SGLang team (v0.1, Aug 2026) | Forked from and co-evolving with slime; SGLang rollout + Megatron-LM training at trillion-parameter MoE scale; fully async with configurable on/off-policy schedules; multi-LoRA adapters load straight into SGLang for rollout; agentic workflow (multi-turn, tool exec, sandbox, token-faithful trajectories); AMD ROCm support |
+| [Open-AgentRL](https://github.com/Gen-Verse/Open-AgentRL) | Gen-Verse's open agentic-RL stack — RLAnything + AutoTool (both ICML 2026) + DemyAgent | RLAnything generalizes one RL algorithm across terminal / GUI / SWE / tool-call settings (+9.1% OSWorld on Qwen3-VL-8B-Thinking, +18.7% AlfWorld on Qwen2.5-7B); AutoTool adds dynamic tool selection mid-trajectory; DemyAgent-4B matches 14B/32B agentic reasoning; the base OpenClaw-RL builds on |
 
 ## Automated Hyperparameter Optimization / AutoML
 
@@ -169,6 +173,7 @@ This repository collects the best open-source tools and frameworks that make thi
 | [NVIDIA Nemotron-4 340B](https://blogs.nvidia.com/blog/nemotron-4-synthetic-data-generation-llm-training/) | Open models for synthetic data generation pipeline | Base + Instruct + Reward models; commercial use allowed |
 | [NeMo Data Designer](https://github.com/NVIDIA-NeMo/DataDesigner) | NVIDIA's compound AI system for high-quality synthetic data generation | Dependency-aware fields; statistical samplers + LLM generation; LLM-as-judge scoring; image generation (v0.5.1); preview mode |
 | [synthetic-data-kit](https://github.com/meta-llama/synthetic-data-kit) | Meta's CLI tool for generating fine-tuning datasets from any document (PDF, HTML, YouTube, DOCX) | 4-step pipeline: ingest → create → curate → save-as; QA pairs + CoT reasoning + summaries; LLM-as-judge filtering |
+| [DataFlow](https://github.com/OpenDCAI/DataFlow) | LLM-driven framework for unified data preparation & workflow automation (OpenDCAI) | ~200 reusable LLM-based operators + 6 template pipelines (text, math reasoning, code, Text-to-SQL, agentic RAG, large-scale QA extraction); **DataFlow-Agent** turns a natural-language spec into an executable pipeline via operator synthesis + planning + iterative verification; drag-and-drop WebUI |
 
 ### Data Curation & Filtering
 
@@ -256,6 +261,8 @@ This repository collects the best open-source tools and frameworks that make thi
 | [OpenRLHF-M](https://github.com/OpenRLHF/OpenRLHF-M) | Multimodal model RLHF training | Extension of OpenRLHF for VLMs |
 | [LLaVA-KD](https://github.com/Fantasyele/LLaVA-KD) | Multimodal knowledge distillation (ICCV 2025) | Distills large MLLMs into smaller ones |
 | [MoE-LLaVA](https://github.com/PKU-YuanGroup/MoE-LLaVA) | Mixture-of-Experts for vision-language models (TMM 2025) | Efficient multimodal MoE architecture |
+| [verl-omni](https://github.com/verl-project/verl-omni) | RL post-training for **diffusion & omni-modality generative models** (verl project) | Targets image/video/audio diffusion (Qwen-Image, Wan2.2, LTX-2.3), unified understanding+generation (BAGEL, HunyuanImage-3.0) and omni models (Qwen3-Omni); vLLM-Omni rollout with step-wise batching + FA3; DiffusionNFT & Diffusion DPO recipes; plugs into existing FSDP/USP parallelism |
+| [verl-vla](https://github.com/verl-project/verl-vla) | Unified **vision-language-action (VLA)** post-training framework (v0.1.0, Aug 2026) | One workflow for human-in-the-loop data collection → SFT → RL → policy evaluation; models, environments and algorithms integrate independently over a shared execution architecture; training workers, simulators and physical robots can run on separate nodes; teleoperate/intervene from any connected device |
 
 ## Experiment Tracking & Orchestration
 
@@ -281,6 +288,7 @@ This repository collects the best open-source tools and frameworks that make thi
 | [SWE-bench Verified](https://www.swebench.com/) | Human-verified GitHub issue resolution | Industry standard for coding agents; top scores 70%+ |
 | [LiveBench](https://livebench.ai/) | Monthly-updated contamination-free LLM benchmark | 6 categories (Math/Reasoning/Coding/Language/Data/IF); objective auto-scoring; no LLM judge needed |
 | [AgenticDataBench](https://huggingface.co/papers/2607.01647) | Comprehensive benchmark for LLM data agents (Jul 2026) | 15 domains + 5 real-world B2B fintech use cases; fine-grained skill labels (schema inspection, joins, cleaning, viz, business-context reasoning); GitHub testbed + HF dataset, Apache-2.0 |
+| [Terminal-Bench 2.1](https://github.com/laude-institute/terminal-bench-2) | 89 verified command-line agent tasks (Stanford + Laude Institute) | Covers software engineering, **model training**, security, data processing and sysadmin; Harbor task format + harness runs Claude Code, Codex CLI, OpenHands, Mini-SWE-Agent, Terminus 2; v2.1 patched 28 tasks so failures reflect agent capability, not environment gaps |
 
 ### Model Evaluation Frameworks
 
@@ -309,6 +317,7 @@ This repository collects the best open-source tools and frameworks that make thi
 | [Roo Code](https://github.com/RooVetGit/Roo-Code) | Terminal agent with 95K+ GitHub stars | 75+ LLM providers; plan-first development; 2.5M monthly developers |
 | [Gemini CLI](https://github.com/google-gemini/gemini-cli) | Google's open-source terminal AI agent (Apache 2.0) | Free tier: 60 req/min & 1K req/day; Gemini 2.5 Pro; MCP support; weekly stable releases |
 | [Claw Code](https://github.com/ultraworkers/claw-code) | Open-source Rust rewrite of Claude Code agent harness architecture | 100K+ stars; fastest GitHub repo to 100K stars; multi-provider (Anthropic/OpenAI/xAI/Ollama/OpenRouter) |
+| [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness) | DeepSeek's official open-source agent harness — "everything is a plugin" (Aug 2026) | MIT, ~200K stars (100K in its first 2 days); model adapter, tool registry, session log, sandbox **and the agent loop itself** are all swappable plugins (Cordis-powered); Node.js, web-UI-first, runs fully local; developer preview |
 
 ---
 
@@ -367,6 +376,9 @@ Generate data at scale → train efficiently → evaluate comprehensively.
 17. **RL Systems Layer + Continuous Online RL**: Jul 2026 — RL efficiency is becoming its own infrastructure tier: Snowflake's Arctic RL (ZoRRo prompt-dedup, 3.5x end-to-end speedup) and Google's Tinker-compatible OpenRL (Kubernetes-native, multi-job GPU packing) decouple RL systems optimization from algorithms, while OpenClaw-RL turns *live deployment conversations* into always-on training signal — RL is shifting from offline batch jobs to standing, always-learning services
 18. **On-Policy Distillation Goes Mainstream**: Jul 2026 — OPD (student generates, teacher grades on-policy) is emerging as a standard post-training stage between SFT and RL; EasyOPD unifies 10+ OPD methods (cross-tokenizer, self-distillation, step-wise) on verl with one-line YAML switching, making it as configurable as fine-tuning
 19. **RL Reaches New Substrates + Full-Science Autoresearch**: RL post-training is spreading beyond autoregressive text — Gen-Verse's dLLM-RL/TraceRL brings trajectory-aware RL to **diffusion LLMs** (SOTA TraDo series), and the vLLM project's own vime standardizes RL post-training inside the inference-engine ecosystem; meanwhile the autoresearch loop generalizes from ML to full-science workbenches (OpenScience: literature → hypothesis → experiment → write-up across ML/bio/physics/chem)
+20. **RL Frameworks Fork into a Per-Modality Matrix + Enterprise RL**: Aug 2026 — the verl ecosystem split into three specialized lines (verl for text, **verl-omni** for diffusion/omni generative models, **verl-vla** for vision-language-action robot policies), so RL post-training now covers image/video/audio generation and physical robot control, not just text; in parallel LMSYS/SGLang's **Miles** pushes RL into trillion-parameter MoE production runs where precision, stability and observability matter as much as throughput
+21. **Autonomous Research Shifts from Producing Papers to Accumulating Knowledge**: The newest research agents attack the same failure — that each experiment starts from scratch. Arbor's **Hypothesis-Tree Refinement** persists hypothesis → artifact → evidence → insight in a tree and propagates lessons upward (2.5x the average relative held-out gain of Codex/Claude Code at equal budget), while Sibyl argues autonomous research needs **self-evolving trial-and-error harnesses, not paper generators** — recurring process failures rewrite the harness itself
+22. **The Agent Harness Becomes Swappable Infrastructure**: DeepSeek open-sourced its own harness (100K stars in 2 days) where the model adapter, tool registry, sandbox *and the agent loop itself* are plugins — following Claw Code's clean-room rewrite, the harness layer is now commodity open infrastructure rather than vendor lock-in; Terminal-Bench 2.1 (Stanford + Laude, 89 tasks incl. model training) is emerging as the shared measuring stick across harnesses
 
 ---
 
@@ -397,4 +409,4 @@ This curated list is released under [CC0 1.0](https://creativecommons.org/public
 
 ---
 
-*Compiled March 2026, updated 2026-07-24. Project statuses may change — check individual GitHub repos for the latest.*
+*Compiled March 2026, updated 2026-09-07. Project statuses may change — check individual GitHub repos for the latest.*
