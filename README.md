@@ -129,6 +129,7 @@ This repository collects the best open-source tools and frameworks that make thi
 | [dLLM-RL (TraceRL)](https://github.com/Gen-Verse/dLLM-RL) | First RL post-training framework for **diffusion LLMs** (ICLR 2026, Princeton/Gen-Verse) | Trajectory-aware RL + diffusion value model for stability; powers the SOTA TraDo series; TraDo-8B-Instruct beats Qwen2.5-7B on math; SFT/RL/RLHF across math/code/multimodal & architectures |
 | [Miles](https://github.com/radixark/miles) | Enterprise-grade RL post-training framework from the LMSYS / SGLang team (v0.1, Aug 2026) | Forked from and co-evolving with slime; SGLang rollout + Megatron-LM training at trillion-parameter MoE scale; fully async with configurable on/off-policy schedules; multi-LoRA adapters load straight into SGLang for rollout; agentic workflow (multi-turn, tool exec, sandbox, token-faithful trajectories); AMD ROCm support |
 | [Open-AgentRL](https://github.com/Gen-Verse/Open-AgentRL) | Gen-Verse's open agentic-RL stack — RLAnything + AutoTool (both ICML 2026) + DemyAgent | RLAnything generalizes one RL algorithm across terminal / GUI / SWE / tool-call settings (+9.1% OSWorld on Qwen3-VL-8B-Thinking, +18.7% AlfWorld on Qwen2.5-7B); AutoTool adds dynamic tool selection mid-trajectory; DemyAgent-4B matches 14B/32B agentic reasoning; the base OpenClaw-RL builds on |
+| [Agent-R1](https://github.com/AgentR1/Agent-R1) | End-to-end RL for training tool-using LLM agents | Models each turn as a step-level MDP transition; StepPO (May 2026); built-in HotpotQA / ALFWorld / WebShop / paper-search environments |
 
 ## Automated Hyperparameter Optimization / AutoML
 
@@ -153,6 +154,7 @@ This repository collects the best open-source tools and frameworks that make thi
 | [Multi-Agent Evolve](https://arxiv.org/html/2510.23595v1) | One LLM plays Proposer + Solver + Judge roles | Verified improvements on math, coding, reasoning with Qwen2.5-3B |
 | [Multiagent Finetuning](https://llm-multiagent-ft.github.io/) | Multi-agent society from same base model | Multi-agent iteration keeps improving where single-model self-training plateaus |
 | [CORY](https://proceedings.neurips.cc/paper_files/paper/2024/) | Cooperative multi-agent RL fine-tuning | Pioneer + Observer dual-agent paradigm (NeurIPS 2024) |
+| [AgentEvolver](https://github.com/modelscope/AgentEvolver) | ModelScope's self-evolving agent training framework | Unifies self-questioning + self-navigating + self-attributing; SeeUPO sequence-level agentic RL with convergence guarantees; generates its own training signal without human-labeled tasks |
 
 ## Synthetic Data Generation & Curation
 
@@ -318,6 +320,8 @@ This repository collects the best open-source tools and frameworks that make thi
 | [Gemini CLI](https://github.com/google-gemini/gemini-cli) | Google's open-source terminal AI agent (Apache 2.0) | Free tier: 60 req/min & 1K req/day; Gemini 2.5 Pro; MCP support; weekly stable releases |
 | [Claw Code](https://github.com/ultraworkers/claw-code) | Open-source Rust rewrite of Claude Code agent harness architecture | 100K+ stars; fastest GitHub repo to 100K stars; multi-provider (Anthropic/OpenAI/xAI/Ollama/OpenRouter) |
 | [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness) | DeepSeek's official open-source agent harness — "everything is a plugin" (Aug 2026) | MIT, ~200K stars (100K in its first 2 days); model adapter, tool registry, session log, sandbox **and the agent loop itself** are all swappable plugins (Cordis-powered); Node.js, web-UI-first, runs fully local; developer preview |
+| [Live-SWE-agent](https://github.com/OpenAutoCoder/live-swe-agent) | Runtime self-evolving software engineering agent | Expands and revises its own capabilities mid-task, no offline training; 79.2% on SWE-bench Verified with Claude Opus 4.5 |
+| [mini-swe-agent](https://github.com/SWE-agent/mini-swe-agent) | 100-line minimalist coding agent (SWE-agent team, Princeton + Stanford) | >74% on SWE-bench Verified; no giant configs or monorepo; used by Meta / NVIDIA / IBM / Princeton / Stanford |
 
 ---
 
@@ -379,6 +383,7 @@ Generate data at scale → train efficiently → evaluate comprehensively.
 20. **RL Frameworks Fork into a Per-Modality Matrix + Enterprise RL**: Aug 2026 — the verl ecosystem split into three specialized lines (verl for text, **verl-omni** for diffusion/omni generative models, **verl-vla** for vision-language-action robot policies), so RL post-training now covers image/video/audio generation and physical robot control, not just text; in parallel LMSYS/SGLang's **Miles** pushes RL into trillion-parameter MoE production runs where precision, stability and observability matter as much as throughput
 21. **Autonomous Research Shifts from Producing Papers to Accumulating Knowledge**: The newest research agents attack the same failure — that each experiment starts from scratch. Arbor's **Hypothesis-Tree Refinement** persists hypothesis → artifact → evidence → insight in a tree and propagates lessons upward (2.5x the average relative held-out gain of Codex/Claude Code at equal budget), while Sibyl argues autonomous research needs **self-evolving trial-and-error harnesses, not paper generators** — recurring process failures rewrite the harness itself
 22. **The Agent Harness Becomes Swappable Infrastructure**: DeepSeek open-sourced its own harness (100K stars in 2 days) where the model adapter, tool registry, sandbox *and the agent loop itself* are plugins — following Claw Code's clean-room rewrite, the harness layer is now commodity open infrastructure rather than vendor lock-in; Terminal-Bench 2.1 (Stanford + Laude, 89 tasks incl. model training) is emerging as the shared measuring stick across harnesses
+23. **Self-Evolution Moves to Runtime**: The boundary between training-time and inference-time improvement is collapsing. **Live-SWE-agent** expands and revises its own tools and workflow *mid-task* with no offline training (79.2% on SWE-bench Verified), while **AgentEvolver** self-evolves during training via a self-questioning / self-navigating / self-attributing loop that generates its own reward signal without human-labeled tasks. On the training side, **Agent-R1** makes every tool call a step-level MDP transition, folding tool use, memory and credit assignment into one trainable substrate — so agentic RL now targets multi-turn tool-using policies directly, not single-response ones. **mini-swe-agent** is the counterweight: 100 lines beats >74% on SWE-bench Verified, showing scaffold complexity is not where the capability lives
 
 ---
 
@@ -409,4 +414,4 @@ This curated list is released under [CC0 1.0](https://creativecommons.org/public
 
 ---
 
-*Compiled March 2026, updated 2026-09-07. Project statuses may change — check individual GitHub repos for the latest.*
+*Compiled March 2026, updated 2026-09-09. Project statuses may change — check individual GitHub repos for the latest.*
