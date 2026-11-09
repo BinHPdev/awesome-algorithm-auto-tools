@@ -4,6 +4,10 @@ on:
   schedule:
     # 每周五中午 12:00 北京时间 (UTC+8) = 04:00 UTC
     - cron: '0 4 * * 5'
+    # 补跑：周六/周日/周一同一时间。runner 在这台 Mac 上，合盖用电池时会休眠，
+    # 领到 job 后跑到一半断联（"runner lost communication"，2026-10-23、11-06 两次）。
+    # 下方 guard 步骤会在本周已有成功运行时直接跳过，所以补跑不会重复更新。
+    - cron: '0 4 * * 6,0,1'
   workflow_dispatch:
     # 支持手动触发
 
@@ -14,6 +18,7 @@ jobs:
     permissions:
       contents: write
       issues: write
+      actions: read
 
     timeout-minutes: 60
 
@@ -37,12 +42,33 @@ jobs:
       ANTHROPIC_API_KEY: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN == '' && secrets.ANTHROPIC_API_KEY || '' }}
 
     steps:
+      - name: 本周是否已成功运行（补跑去重）
+        id: guard
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # 手动触发总是执行；定时触发时，近 6 天内已有成功运行就跳过
+          if [ "$GITHUB_EVENT_NAME" != "schedule" ]; then
+            echo "skip=false" >> "$GITHUB_OUTPUT"; exit 0
+          fi
+          SINCE=$(date -u -v-6d +%Y-%m-%dT%H:%M:%SZ)
+          N=$(gh run list --repo "$GITHUB_REPOSITORY" --workflow weekly-update.yml \
+                --status success --created ">$SINCE" --json databaseId --jq 'length')
+          if [ "${N:-0}" -gt 0 ]; then
+            echo "✅ 近 6 天已有 $N 次成功运行，本次补跑跳过"
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "skip=false" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: 检出代码
+        if: steps.guard.outputs.skip != 'true'
         uses: actions/checkout@v5
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: 拉取最新代码
+        if: steps.guard.outputs.skip != 'true'
         run: |
           # 国内访问 GitHub 偶发网络抖动（HTTP2 framing / 连接超时），加 3 次重试
           for attempt in 1 2 3; do
@@ -60,6 +86,7 @@ jobs:
           done
 
       - name: 检查 Claude CLI 与认证
+        if: steps.guard.outputs.skip != 'true'
         timeout-minutes: 5
         run: |
           command -v claude || { echo "❌ claude CLI not found"; exit 1; }
@@ -100,6 +127,7 @@ jobs:
           fi
 
       - name: 运行 Claude Code 搜索更新
+        if: steps.guard.outputs.skip != 'true'
         timeout-minutes: 45
         run: |
           set -o pipefail
@@ -121,6 +149,7 @@ jobs:
           echo "✅ Claude 搜索完成"
 
       - name: 提交并推送
+        if: steps.guard.outputs.skip != 'true'
         run: |
           git config user.name  "AlgoTools Bot"
           git config user.email "bot@awesome-algo-tools.local"
